@@ -21,6 +21,14 @@ class Person < ActiveRecord::Base
     parents_array
   end
 
+  def grandparents
+    grandparents_array = []
+    parents = self.parents
+    parents.each do |parent|
+      grandparents_array << parent.parents
+    end
+    grandparents_array.flatten
+  end
 
 private
 
