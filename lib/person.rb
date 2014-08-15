@@ -41,7 +41,12 @@ class Person < ActiveRecord::Base
   end
 
   def grandchildren
-
+    grandchildren_array = []
+    children = self.children
+    children.each do |child|
+      grandchildren_array << child.children
+    end
+    grandchildren_array.flatten
   end
 
 private
