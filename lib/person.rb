@@ -1,6 +1,8 @@
 class Person < ActiveRecord::Base
   validates :name, :presence => true
 
+  has_many :relationships
+
   after_save :make_marriage_reciprocal
 
   def spouse
