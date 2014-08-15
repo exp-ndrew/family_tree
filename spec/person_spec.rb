@@ -59,8 +59,19 @@ describe Person do
       grandparent2 = Relationship.create(:parent_id => carol.id, :person_id => silvia.id)
       grandparent3 = Relationship.create(:parent_id => donald.id, :person_id => earl.id)
       grandparent4 = Relationship.create(:parent_id => agnes.id, :person_id => earl.id)
-      binding.pry
       expect(steve.grandparents).to include tom, carol, donald, agnes
+    end
+  end
+
+  describe 'children' do
+    it 'returns the children of a person' do
+      steve = Person.create(:name => 'Steve')
+      earl = Person.create(:name => 'Earl')
+      silvia = Person.create(:name => 'Silvia')
+      parent1 = Relationship.create(:parent_id => earl.id, :person_id => steve.id)
+      parent2 = Relationship.create(:parent_id => silvia.id, :person_id => steve.id)
+      binding.pry
+      expect(silvia.children).to include steve
     end
   end
 

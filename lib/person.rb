@@ -30,6 +30,20 @@ class Person < ActiveRecord::Base
     grandparents_array.flatten
   end
 
+  def children
+    children_array = []
+    Relationship.all.each do |child|
+      if self.id == child.parent_id
+        children_array << Person.find(child['person_id'])
+      end
+    end
+    children_array
+  end
+
+  def grandchildren
+
+  end
+
 private
 
   def make_marriage_reciprocal
