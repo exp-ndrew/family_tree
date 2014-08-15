@@ -13,6 +13,15 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def parents
+    parents_array = []
+    self.relationships.each do |parent|
+      parents_array << Person.find(parent['parent_id'])
+    end
+    parents_array
+  end
+
+
 private
 
   def make_marriage_reciprocal

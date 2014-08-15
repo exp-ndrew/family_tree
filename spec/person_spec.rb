@@ -25,4 +25,23 @@ describe Person do
     earl.reload
     earl.spouse_id.should eq steve.id
   end
+
+  it 'returns relationships of person' do
+    earl = Person.create(:name => 'Earl')
+    steve = Person.create(:name => 'Steve')
+    relationship1 = Relationship.create(:parent_id => earl.id, :person_id => steve.id)
+    expect(steve.relationships).to eq [relationship1]
+  end
+
+  describe 'parents' do
+     it 'returns parents of person' do
+      steve = Person.create(:name => 'Steve')
+      earl = Person.create(:name => 'Earl')
+      silvia = Person.create(:name => 'Silvia')
+      parent1 = Relationship.create(:parent_id => earl.id, :person_id => steve.id)
+      parent2 = Relationship.create(:parent_id => silvia.id, :person_id => steve.id)
+      expect(steve.parents).to eq [earl, silvia]
+    end
+  end
+
 end
