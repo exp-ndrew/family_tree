@@ -1,6 +1,8 @@
 class Person < ActiveRecord::Base
   validates :name, :presence => true
 
+  has_many :parents, through: :relationships
+
   has_many :relationships
 
   after_save :make_marriage_reciprocal
@@ -13,18 +15,17 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def parents
-    parents_array = []
-    self.relationships.each do |parent|
-      parents_array << Person.find(parent['parent_id'])
-    end
-    parents_array
-  end
+  # def parents
+  #   parents_array = []
+  #   self.relationships.each do |parent|
+  #     parents_array << Person.find(parent['parent_id'])
+  #   end
+  #   parents_array
+  # end
 
   def grandparents
     grandparents_array = []
-    parents = self.parents
-    parents.each do |parent|
+    self.parents.each do |parent|
       grandparents_array << parent.parents
     end
     grandparents_array.flatten
@@ -42,8 +43,7 @@ class Person < ActiveRecord::Base
 
   def grandchildren
     grandchildren_array = []
-    children = self.children
-    children.each do |child|
+    self.children.each do |child|
       grandchildren_array << child.children
     end
     grandchildren_array.flatten
